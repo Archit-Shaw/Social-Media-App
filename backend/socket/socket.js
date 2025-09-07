@@ -8,7 +8,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:5173',
-      'https://postify-ani.vercel.app'
+      'https://chitchat-aditi.vercel.app/'
     ],
     methods: ['GET', 'POST'],
   },
