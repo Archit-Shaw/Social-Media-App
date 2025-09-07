@@ -16,7 +16,7 @@ connectDB();
 const corsOptions = {
   origin: [
     'http://localhost:5173',
-    'https://chitchat-aditi.vercel.app/'
+    'https://chitchat-aditi.vercel.app'
   ],
   credentials: true,
   optionsSuccessStatus: 200,
