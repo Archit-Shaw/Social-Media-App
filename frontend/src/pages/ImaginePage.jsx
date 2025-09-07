@@ -42,37 +42,45 @@ const ImaginePage = () => {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <div className="p-4 border-b border-gray-200 bg-white shadow-sm">
-        <h1 className="text-xl font-bold text-gray-800">Designer</h1>
+        <h1 className="text-2xl font-bold text-gray-800 text-center">
+          Designer ✨
+        </h1>
       </div>
 
-      {/* Content */}
-      <div className="p-6 max-w-3xl mx-auto">
-        {/* Form */}
+      <div className="p-6 max-w-3xl mx-auto space-y-6">
+        {/* Form Card */}
         <form
           onSubmit={handleGenerate}
-          className="flex flex-col sm:flex-row gap-2 mb-6"
+          className="bg-white shadow-md rounded-xl p-6 border border-gray-200"
         >
-          <input
-            type="text"
+          <label className="block text-gray-700 font-semibold mb-2">
+            Enter your prompt
+          </label>
+          <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Enter a prompt to generate an image..."
-            className="flex-1 px-4 py-2 bg-white rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            placeholder="Describe what you want to see..."
+            rows={3}
+            className="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm resize-none"
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
-          >
-            {loading ? "Generating..." : "Generate"}
-          </button>
+
+          {error && (
+            <p className="text-red-500 text-sm mt-2 font-medium">{error}</p>
+          )}
+
+          <div className="flex justify-center mt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition"
+            >
+              {loading ? "Generating..." : "Generate Image"}
+            </button>
+          </div>
         </form>
 
-        {/* Error Message */}
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-        {/* Image Preview */}
-        <div className="flex justify-center items-center bg-white rounded-lg shadow-md min-h-[512px] border border-gray-200">
+        {/* Image Preview Card */}
+        <div className="bg-white shadow-md rounded-xl p-6 border border-gray-200 flex justify-center items-center min-h-[512px]">
           {loading && (
             <FaSpinner className="text-blue-600 text-4xl animate-spin" />
           )}
@@ -85,11 +93,16 @@ const ImaginePage = () => {
               />
               <button
                 onClick={handleDownload}
-                className="absolute top-2 right-2 bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow"
+                className="absolute top-3 right-3 bg-blue-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow"
               >
                 <FaDownload />
               </button>
             </div>
+          )}
+          {!loading && !imageUrl && (
+            <p className="text-gray-400 text-lg">
+              Your generated image will appear here 👇
+            </p>
           )}
         </div>
       </div>

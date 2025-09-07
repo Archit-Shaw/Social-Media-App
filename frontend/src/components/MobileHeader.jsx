@@ -8,7 +8,7 @@ const MobileHeader = () => {
       <Link to="/" className="flex items-center gap-2">
         <img src="/logo.png" alt="Postify Logo" className="h-10 w-auto" />
         <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-500 text-transparent bg-clip-text">
-          Postify
+          ChitChat
         </span>
       </Link>
     </header>
