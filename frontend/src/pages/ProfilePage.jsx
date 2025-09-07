@@ -29,14 +29,14 @@ const ProfilePage = () => {
       }
       return;
     }
-
+    
     const fetchProfile = async () => {
       setLoading(true);
       setError(null);
       setProfile(null);
       setIsFollowing(false);
       try {
-        const data = await getUserProfile(username);
+        const data = await getUserProfile(username); 
         setProfile(data);
         if (userInfo && data.user.followers.includes(userInfo._id)) {
           setIsFollowing(true);
@@ -91,29 +91,36 @@ const ProfilePage = () => {
       }
     }));
     if (currentUser && currentUser._id === updatedProfile._id) {
-      const updatedUserInfo = { ...currentUser, bio: updatedProfile.bio, profilePicture: updatedProfile.profilePicture };
-      localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
-      setCurrentUser(updatedUserInfo);
+        const updatedUserInfo = { ...currentUser, bio: updatedProfile.bio, profilePicture: updatedProfile.profilePicture };
+        localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+        setCurrentUser(updatedUserInfo);
     }
     setToastMessage('Profile updated successfully!');
     setTimeout(() => setToastMessage(''), 3000);
   };
 
+  // This function now navigates directly to the chat page
   const handleStartConversation = () => {
     if (!currentUser) {
       alert('You need to be logged in to send a message.');
       return;
     }
+    // Navigate to the chat page with the other user's ID
     navigate(`/messages/${profile.user._id}`);
   };
 
-  if (loading) return <div className="text-center p-10 text-gray-500">Loading profile...</div>;
-  if (error || !profile) return <div className="text-center p-10 text-red-500">{error || 'Profile not found.'}</div>;
+  if (loading) {
+    return <div className="text-center p-10 text-gray-400">Loading profile...</div>;
+  }
+
+  if (error || !profile) {
+    return <div className="text-center p-10 text-red-500">{error || 'Profile not found.'}</div>;
+  }
 
   const isOwnProfile = currentUser && currentUser._id === profile.user._id;
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div>
       <Toast message={toastMessage} />
       <EditProfileModal
         isOpen={isEditModalOpen}
@@ -121,53 +128,50 @@ const ProfilePage = () => {
         user={profile.user}
         onProfileUpdate={handleProfileUpdate}
       />
-
       {/* Profile Header */}
-      <div className="p-6 border-b bg-white shadow-sm">
+      <div className="p-4 border-b border-gray-700 relative">
         <div className="flex justify-between items-start">
-          <div>
-            <div className="w-28 h-28 rounded-full bg-gray-200 mb-4 overflow-hidden">
-              {profile.user.profilePicture && (
-                <img src={profile.user.profilePicture} alt={profile.user.username} className="w-full h-full object-cover" />
-              )}
+            <div>
+                <div className="w-24 h-24 rounded-full bg-gray-600 mb-4">
+                    {profile.user.profilePicture && <img src={profile.user.profilePicture} alt={profile.user.username} className="w-full h-full rounded-full object-cover" />}
+                </div>
+                <h1 className="text-2xl font-bold text-white">{profile.user.username}</h1>
+                <p className="text-gray-400">{profile.user.bio}</p>
+                <div className="flex gap-x-4 mt-4 text-gray-400">
+                  <span><span className="font-bold text-white">{profile.user.following.length}</span> Following</span>
+                  <span><span className="font-bold text-white">{profile.user.followers.length}</span> Followers</span>
+                </div>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">{profile.user.username}</h1>
-            <p className="text-gray-600">{profile.user.bio}</p>
-            <div className="flex gap-x-4 mt-3 text-gray-600">
-              <span><span className="font-bold text-gray-800">{profile.user.following.length}</span> Following</span>
-              <span><span className="font-bold text-gray-800">{profile.user.followers.length}</span> Followers</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-x-2">
-            {!isOwnProfile && (
-              <>
-                <button onClick={handleStartConversation} className="p-2 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200">
-                  <IoMailOutline size={20} />
-                </button>
-                <button
-                  onClick={handleFollow}
-                  className={`px-4 py-2 rounded-full font-semibold transition ${
-                    isFollowing ? 'bg-gray-200 text-gray-800' : 'bg-indigo-600 text-white hover:bg-indigo-700'
-                  }`}
+            
+            <div className="flex items-center gap-x-2">
+                {!isOwnProfile && (
+                    <>
+                        <button onClick={handleStartConversation} className="p-2 rounded-full bg-gray-700 text-white">
+                            <IoMailOutline size={20} />
+                        </button>
+                        <button
+                            onClick={handleFollow}
+                            className={`px-4 py-2 rounded-full font-semibold ${
+                            isFollowing ? 'bg-gray-700 text-white' : 'bg-white text-black'
+                            }`}
+                        >
+                            {isFollowing ? 'Following' : 'Follow'}
+                        </button>
+                    </>
+                )}
+                {isOwnProfile && (
+                <button 
+                    onClick={() => setIsEditModalOpen(true)}
+                    className="px-4 py-2 rounded-full font-semibold bg-gray-700 text-white"
                 >
-                  {isFollowing ? 'Following' : 'Follow'}
+                    Edit Profile
                 </button>
-              </>
-            )}
-            {isOwnProfile && (
-              <button
-                onClick={() => setIsEditModalOpen(true)}
-                className="px-4 py-2 rounded-full font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
-              >
-                Edit Profile
-              </button>
-            )}
-          </div>
+                )}
+            </div>
         </div>
       </div>
 
-      {/* Posts */}
+      {/* User's Posts */}
       <div className="space-y-4 p-4">
         {profile.posts.length > 0 ? (
           profile.posts.map((post) => (
@@ -179,8 +183,8 @@ const ProfilePage = () => {
             />
           ))
         ) : (
-          <div className="text-center p-10 text-gray-500">
-            <p>This user hasn’t posted anything yet.</p>
+          <div className="text-center p-10 text-gray-400">
+            <p>This user hasn't posted anything yet.</p>
           </div>
         )}
       </div>

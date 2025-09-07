@@ -43,7 +43,7 @@ const LeftSidebar = () => {
           </NavLink>
           <NavLink to="/imagine" className={getLinkClass}>
             <IoSparklesOutline size={24} />
-            <span>Designer</span>
+            <span>Desinger</span>
           </NavLink>
           <NavLink to="/create" className={getLinkClass}>
             <GoPlusCircle size={24} />
