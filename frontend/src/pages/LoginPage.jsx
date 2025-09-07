@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser as apiLoginUser } from '../services/apiService'; // API function ka naam badla
+import { loginUser as apiLoginUser } from '../services/apiService';
 import { useAuth } from '../context/AuthContext';
 
 const animatedTexts = ['Connect.', 'Share.', 'Create.'];
@@ -9,16 +9,12 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { currentUser, loginUser } = useAuth(); // Context se loginUser function liya
+  const { currentUser, loginUser } = useAuth();
 
-  // Agar user pehle se logged in hai, to use homepage par bhej do
   useEffect(() => {
-    if (currentUser) {
-      navigate('/');
-    }
+    if (currentUser) navigate('/');
   }, [currentUser, navigate]);
 
-  // Typing animation ka logic (koi badlaav nahin)
   const [textIndex, setTextIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -42,52 +38,65 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const userData = await apiLoginUser({ email, password });
-      loginUser(userData); // Global state ko update kiya
+      loginUser(userData);
       navigate('/');
-    } catch (error)      {
+    } catch (error) {
       console.error('Failed to log in:', error);
       alert('Login failed. Please check your credentials.');
     }
   };
 
   return (
-    <div className="min-h-screen md:grid md:grid-cols-2 bg-gray-900 text-white">
-      {/* Left Side: Login Form */}
-      <div className="flex items-center justify-center p-6 sm:p-12">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold">Login</h1>
-          <p className="mt-2 text-gray-400">Welcome back to Postify.</p>
-          <form onSubmit={handleLogin} className="mt-8 space-y-6">
+    <div className="min-h-screen md:grid md:grid-cols-2 bg-gray-50 text-gray-900">
+      {/* Left: Form */}
+      <div className="flex items-center justify-center p-8">
+        <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800">Login</h1>
+          <p className="mt-2 text-gray-500">Welcome back to <span className="font-semibold text-indigo-600">ChitChat</span>.</p>
+          <form onSubmit={handleLogin} className="mt-8 space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-300">Email</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 mt-1 bg-gray-700 border-2 border-transparent rounded-lg focus:outline-none focus:border-blue-500" required />
+              <label className="block text-sm font-medium text-gray-600">Email</label>
+              <input
+                type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 mt-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300">Password</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-3 mt-1 bg-gray-700 border-2 border-transparent rounded-lg focus:outline-none focus:border-blue-500" required />
+              <label className="block text-sm font-medium text-gray-600">Password</label>
+              <input
+                type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 mt-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
             </div>
-            <button type="submit" className="w-full py-3 px-4 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Login</button>
+            <button
+              type="submit"
+              className="w-full py-3 px-4 font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition"
+            >
+              Login
+            </button>
           </form>
-          <p className="mt-8 text-sm text-center text-gray-400">
-            Don't have an account?{' '}
-            <Link to="/register" className="font-medium text-blue-400 hover:text-blue-500">Sign Up</Link>
+          <p className="mt-6 text-sm text-center text-gray-500">
+            Don’t have an account?{' '}
+            <Link to="/register" className="font-medium text-indigo-600 hover:underline">Sign Up</Link>
           </p>
         </div>
       </div>
-      {/* Right Side: Animated Welcome Message */}
-      <div className="hidden md:flex flex-col items-center justify-center p-12 relative">
+
+      {/* Right: Welcome Animation */}
+      <div className="hidden md:flex flex-col items-center justify-center bg-gradient-to-br from-indigo-100 to-indigo-200 p-12 relative">
         <div className="text-center">
-            <h2 className="text-5xl font-extrabold text-white">Welcome to <span className="text-blue-400">Postify</span></h2>
-            <div className="mt-4 h-16 text-3xl font-semibold text-gray-300">
-              <span>{displayedText}</span>
-              <span className="animate-ping">|</span>
-            </div>
+          <h2 className="text-5xl font-extrabold text-gray-800">
+            Welcome to <span className="text-indigo-600">ChitChat</span>
+          </h2>
+          <div className="mt-6 h-16 text-3xl font-semibold text-gray-700">
+            <span>{displayedText}</span>
+            <span className="animate-pulse">|</span>
+          </div>
         </div>
-        <div className="absolute bottom-8 text-center text-gray-400">
-            <p>Developed with ❤️ in India</p>
-            <p>by{' '}
-              <a href="https://www.linkedin.com/in/pratapani01/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-400">Animesh</a>
-            </p>
+        <div className="absolute bottom-8 text-center text-gray-600">
+          <p>Developed with ❤️ in India</p>
         </div>
       </div>
     </div>

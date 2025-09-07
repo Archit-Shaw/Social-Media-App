@@ -26,29 +26,35 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={onClose}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gray-800 rounded-lg shadow-xl w-full max-w-lg p-6"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6"
+            onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold text-white mb-4">Create a new post</h2>
+            {/* Heading */}
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Create a new post
+            </h2>
+
+            {/* Post form */}
             <form onSubmit={handleSubmit}>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind?"
-                className="w-full h-32 p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full h-32 p-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 maxLength="280"
               ></textarea>
+
               <div className="flex justify-end mt-4">
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700"
+                  className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-colors"
                 >
                   Post
                 </button>

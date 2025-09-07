@@ -15,16 +15,15 @@ const ChatWindow = ({ otherUserId }) => {
   const socket = useRef();
   const messagesEndRef = useRef(null);
 
-  // Scroll to the latest message
+  // Scroll to bottom when new messages come
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Fetch initial data and set up socket
+  // Fetch user + messages
   useEffect(() => {
     if (!otherUserId) {
       setLoading(false);
-      // This case is handled by the parent MessagesPage, so we just return.
       return;
     }
 
@@ -48,7 +47,7 @@ const ChatWindow = ({ otherUserId }) => {
 
     fetchData();
 
-    // Setup socket connection
+    // Setup socket
     if (currentUser) {
       const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       socket.current = io(backendUrl.replace('/api', ''), {
@@ -61,7 +60,6 @@ const ChatWindow = ({ otherUserId }) => {
         }
       });
 
-      // Cleanup on component unmount
       return () => {
         socket.current.disconnect();
       };
@@ -82,45 +80,48 @@ const ChatWindow = ({ otherUserId }) => {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center h-full text-gray-400">Loading Chat...</div>;
+    return <div className="flex items-center justify-center h-full text-gray-500">Loading Chat...</div>;
   }
 
   if (error) {
     return <div className="flex items-center justify-center h-full text-red-500">{error}</div>;
   }
-  
+
   if (!otherUser) {
-    // This message is shown on desktop if no chat is selected.
     return <div className="hidden md:flex items-center justify-center h-full text-gray-400">Select a conversation to start chatting.</div>;
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Chat Header with Back Button for Mobile */}
-      <div className="p-4 border-b border-gray-700 flex items-center gap-x-4 sticky top-0 bg-gray-800 z-10">
-        <Link to="/messages" className="md:hidden text-white mr-2">
+    <div className="flex flex-col h-full bg-gray-50">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-300 flex items-center gap-x-3 sticky top-0 bg-white shadow-sm z-10">
+        <Link to="/messages" className="md:hidden text-gray-700 mr-2">
           <FaArrowLeft size={20} />
         </Link>
-        <div className="w-10 h-10 rounded-full bg-gray-600">
+        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
           {otherUser.profilePicture && (
-            <img src={otherUser.profilePicture} alt={otherUser.username} className="w-full h-full object-cover rounded-full" />
+            <img
+              src={otherUser.profilePicture}
+              alt={otherUser.username}
+              className="w-full h-full object-cover"
+            />
           )}
         </div>
-        <h2 className="text-xl font-bold text-white">{otherUser.username}</h2>
+        <h2 className="text-lg font-semibold text-gray-800">{otherUser.username}</h2>
       </div>
 
-      {/* Messages Area */}
+      {/* Messages */}
       <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((msg, index) => (
           <div
             key={msg._id || `msg-${index}`}
-            className={`flex mb-4 ${msg.senderId === currentUser._id ? 'justify-end' : 'justify-start'}`}
+            className={`flex mb-3 ${msg.senderId === currentUser._id ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs md:max-w-md p-3 rounded-lg ${
+              className={`max-w-xs md:max-w-md px-4 py-2 rounded-2xl shadow-sm ${
                 msg.senderId === currentUser._id
-                  ? 'bg-blue-600 text-white rounded-br-none'
-                  : 'bg-gray-700 text-gray-200 rounded-bl-none'
+                  ? 'bg-blue-500 text-white rounded-br-none'
+                  : 'bg-gray-200 text-gray-800 rounded-bl-none'
               }`}
             >
               <p>{msg.message}</p>
@@ -130,19 +131,19 @@ const ChatWindow = ({ otherUserId }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input Form */}
-      <div className="p-4 border-t border-gray-700 bg-gray-800 sticky bottom-0">
+      {/* Input */}
+      <div className="p-3 border-t border-gray-300 bg-white sticky bottom-0 shadow-md">
         <form onSubmit={handleSendMessage} className="flex items-center gap-x-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-full text-white focus:outline-none focus:border-blue-500"
+            className="flex-1 px-4 py-2 bg-gray-100 border border-gray-300 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             type="submit"
-            className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:bg-gray-500 transition-colors"
+            className="p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:bg-gray-400 transition"
             disabled={!newMessage.trim()}
           >
             <FaPaperPlane />
@@ -154,4 +155,3 @@ const ChatWindow = ({ otherUserId }) => {
 };
 
 export default ChatWindow;
-

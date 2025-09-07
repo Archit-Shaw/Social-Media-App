@@ -1,37 +1,73 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-// Importing specific icons we need
-import { IoChatbubbleEllipsesOutline, IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  IoChatbubbleEllipsesOutline,
+  IoSunnyOutline,
+  IoMoonOutline,
+} from "react-icons/io5";
 
 const TopNavbar = () => {
-  // We'll add theme switching logic here later
-  const isDarkMode = false; // Placeholder
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Load saved theme
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  // Toggle theme
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white/30 dark:bg-gray-900/30 backdrop-blur-lg shadow-sm z-50 flex items-center justify-between px-4 sm:px-6">
-      {/* App Logo/Name - Styled as requested */}
+    <header className="fixed top-0 left-0 right-0 h-16 bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg shadow-md z-50 flex items-center justify-between px-4 sm:px-6 border-b border-gray-200 dark:border-gray-800">
+      {/* Logo */}
       <Link to="/">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 text-transparent bg-clip-text">
-          Postify
+        <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-500 text-transparent bg-clip-text tracking-tight">
+          ChitChat
         </h1>
       </Link>
 
-      {/* Action Icons */}
-      <div className="flex items-center gap-x-5">
+      {/* Right Actions */}
+      <div className="flex items-center gap-x-6">
+        {/* Messages */}
         <Link to="/messages">
-          <IoChatbubbleEllipsesOutline size={26} className="text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400" />
+          <IoChatbubbleEllipsesOutline
+            size={26}
+            className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          />
         </Link>
 
-        <button>
+        {/* Theme Toggle */}
+        <button onClick={toggleTheme}>
           {isDarkMode ? (
-            <IoSunnyOutline size={26} className="text-gray-700 dark:text-gray-200 hover:text-yellow-500" />
+            <IoSunnyOutline
+              size={26}
+              className="text-yellow-500 hover:text-yellow-600 transition-colors"
+            />
           ) : (
-            <IoMoonOutline size={26} className="text-gray-700 dark:text-gray-200 hover:text-indigo-500" />
+            <IoMoonOutline
+              size={26}
+              className="text-indigo-500 hover:text-indigo-600 transition-colors"
+            />
           )}
         </button>
 
-        {/* Placeholder for Profile Picture/Dropdown */}
-        <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+        {/* Profile Avatar Placeholder */}
+        <div className="w-9 h-9 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold cursor-pointer hover:opacity-90 transition-all">
+          U
+        </div>
       </div>
     </header>
   );
