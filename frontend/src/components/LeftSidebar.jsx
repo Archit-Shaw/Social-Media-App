@@ -16,47 +16,56 @@ const LeftSidebar = () => {
 
   // Active link style
   const getLinkClass = ({ isActive }) =>
-    `flex items-center gap-x-3 py-2 px-4 rounded-xl text-lg font-medium transition-all duration-200
+    `flex items-center gap-x-3 py-2.5 px-5 rounded-xl text-lg font-medium transition-all duration-200
      ${
        isActive
-         ? "bg-blue-600 text-white shadow-md"
-         : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+         ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg scale-[1.02]"
+         : "text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:scale-[1.02]"
      }`;
 
   return (
-    <aside className="w-[250px] h-screen sticky top-0 flex flex-col justify-between border-r border-gray-200 bg-white shadow-md">
-      <div className="p-6">
-        {/* Logo */}
-        <Link to="/" className="flex items-center justify-center mb-8">
-          <img src="/logo.png" alt="Postify Logo" className="w-32" />
-        </Link>
+    <aside className="w-[260px] h-screen sticky top-0 flex flex-col justify-between border-r border-gray-200 bg-white shadow-xl">
+      <div>
+        {/* Gradient Header Bar */}
+        <div className="w-full h-2 bg-gradient-to-r from-blue-500 to-purple-600"></div>
 
-        {/* Navigation Links */}
-        <nav className="flex flex-col gap-3">
-          <NavLink to="/" className={getLinkClass}>
-            <GoHomeFill size={24} />
-            <span>Home</span>
-          </NavLink>
-          <NavLink to="/messages" className={getLinkClass}>
-            <IoChatbubbleEllipsesOutline size={24} />
-            <span>Messages</span>
-          </NavLink>
-          <NavLink to="/imagine" className={getLinkClass}>
-            <IoSparklesOutline size={24} />
-            <span>Designer</span>
-          </NavLink>
-          <NavLink to="/create" className={getLinkClass}>
-            <GoPlusCircle size={24} />
-            <span>Create</span>
-          </NavLink>
-          <NavLink
-            to={`/profile/${currentUser?.username || ""}`}
-            className={getLinkClass}
-          >
-            <FaRegUser size={22} />
-            <span>Profile</span>
-          </NavLink>
-        </nav>
+        {/* Logo */}
+        <div className="p-6">
+          <Link to="/" className="flex items-center justify-center mb-8">
+            <img
+              src="/logo.png"
+              alt="Postify Logo"
+              className="w-36 drop-shadow-md"
+            />
+          </Link>
+
+          {/* Navigation Links */}
+          <nav className="flex flex-col gap-3">
+            <NavLink to="/" className={getLinkClass}>
+              <GoHomeFill size={24} />
+              <span>Home</span>
+            </NavLink>
+            <NavLink to="/messages" className={getLinkClass}>
+              <IoChatbubbleEllipsesOutline size={24} />
+              <span>Messages</span>
+            </NavLink>
+            <NavLink to="/imagine" className={getLinkClass}>
+              <IoSparklesOutline size={24} />
+              <span>Designer</span>
+            </NavLink>
+            <NavLink to="/create" className={getLinkClass}>
+              <GoPlusCircle size={24} />
+              <span>Create</span>
+            </NavLink>
+            <NavLink
+              to={`/profile/${currentUser?.username || ""}`}
+              className={getLinkClass}
+            >
+              <FaRegUser size={22} />
+              <span>Profile</span>
+            </NavLink>
+          </nav>
+        </div>
       </div>
 
       {/* Logout/Login Button */}
@@ -64,7 +73,10 @@ const LeftSidebar = () => {
         {currentUser ? (
           <button
             onClick={logoutUser}
-            className="w-full flex items-center gap-x-3 py-2 px-4 rounded-xl text-lg font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
+            className="w-full flex items-center justify-center gap-x-3 py-2.5 px-5 
+                       rounded-xl text-lg font-medium text-white 
+                       bg-gradient-to-r from-red-500 to-pink-600 shadow-md 
+                       hover:shadow-lg hover:scale-[1.03] transition-all"
           >
             <FiLogOut size={22} />
             <span>Logout</span>
@@ -72,7 +84,10 @@ const LeftSidebar = () => {
         ) : (
           <NavLink
             to="/login"
-            className="flex items-center gap-x-3 py-2 px-4 rounded-xl text-lg font-medium text-blue-600 hover:bg-blue-50 transition-all duration-200"
+            className="w-full flex items-center justify-center gap-x-3 py-2.5 px-5 
+                       rounded-xl text-lg font-medium text-white 
+                       bg-gradient-to-r from-blue-500 to-purple-600 shadow-md 
+                       hover:shadow-lg hover:scale-[1.03] transition-all"
           >
             <FiLogIn size={22} />
             <span>Login</span>

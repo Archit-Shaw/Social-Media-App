@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
 // Icons
 import { GoHomeFill, GoPlusCircle } from "react-icons/go";
 import { FaRegUser } from "react-icons/fa";
@@ -12,20 +11,24 @@ const BottomNavbar = () => {
   const { currentUser, logoutUser } = useAuth();
 
   const getLinkClass = ({ isActive }) =>
-    `transition-colors duration-200 ${
+    `relative transition-all duration-300 ${
       isActive
-        ? "text-blue-600 dark:text-blue-400"
-        : "text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400"
+        ? "text-blue-600 dark:text-purple-400 scale-110"
+        : "text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-purple-400"
     }`;
 
   return (
-    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md px-6 py-3 
-      bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl 
-      rounded-full shadow-lg z-50 border border-gray-200 dark:border-gray-800 lg:hidden">
-      <div className="flex justify-around items-center gap-x-6 text-2xl">
+    <nav
+      className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-lg px-6 py-4
+       bg-gradient-to-r from-white/80 via-white/60 to-white/80 dark:from-gray-900/80 dark:via-gray-800/70 dark:to-gray-900/80
+       backdrop-blur-2xl border border-gray-200/60 dark:border-gray-700/60
+       rounded-3xl shadow-2xl z-50 lg:hidden"
+    >
+      <div className="flex justify-around items-center gap-x-8 text-2xl">
         <NavLink to="/" className={getLinkClass}>
           <GoHomeFill />
         </NavLink>
+
         <NavLink to="/messages" className={getLinkClass}>
           <IoChatbubbleEllipsesOutline />
         </NavLink>
@@ -33,10 +36,11 @@ const BottomNavbar = () => {
         {/* Center Create Button - Highlighted */}
         <NavLink
           to="/create"
-          className="relative -top-6 flex items-center justify-center w-14 h-14 rounded-full 
-          bg-gradient-to-r from-blue-600 to-purple-500 text-white shadow-xl hover:scale-105 transition-transform"
+          className="relative -top-8 flex items-center justify-center w-16 h-16 rounded-full
+           bg-gradient-to-tr from-blue-600 via-purple-500 to-pink-500 text-white
+           shadow-[0_8px_20px_rgba(0,0,0,0.25)] hover:scale-110 active:scale-95 transition-transform"
         >
-          <GoPlusCircle size={30} />
+          <GoPlusCircle size={34} />
         </NavLink>
 
         <NavLink to="/imagine" className={getLinkClass}>

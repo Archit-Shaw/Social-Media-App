@@ -31,10 +31,20 @@ const TopNavbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg shadow-md z-50 flex items-center justify-between px-4 sm:px-6 border-b border-gray-200 dark:border-gray-800">
+    <header
+      className="fixed top-0 left-0 right-0 h-16 
+                 bg-white/10 dark:bg-gray-900/30 
+                 backdrop-blur-md border-b border-white/20 dark:border-gray-800/40 
+                 shadow-lg z-50 flex items-center justify-between 
+                 px-4 sm:px-6"
+    >
       {/* Logo */}
       <Link to="/">
-        <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-500 text-transparent bg-clip-text tracking-tight">
+        <h1
+          className="text-2xl font-extrabold 
+                     bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 
+                     text-transparent bg-clip-text tracking-tight"
+        >
           ChitChat
         </h1>
       </Link>
@@ -45,27 +55,42 @@ const TopNavbar = () => {
         <Link to="/messages">
           <IoChatbubbleEllipsesOutline
             size={26}
-            className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="text-gray-700 dark:text-gray-200 
+                       hover:text-blue-500 dark:hover:text-blue-400 
+                       transition-colors"
           />
         </Link>
 
         {/* Theme Toggle */}
-        <button onClick={toggleTheme}>
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full bg-white/5 hover:bg-white/10 
+                     dark:bg-gray-800/40 dark:hover:bg-gray-700/60 
+                     border border-white/10 dark:border-gray-700/50 
+                     transition"
+        >
           {isDarkMode ? (
             <IoSunnyOutline
-              size={26}
-              className="text-yellow-500 hover:text-yellow-600 transition-colors"
+              size={22}
+              className="text-yellow-400 hover:text-yellow-500 transition-colors"
             />
           ) : (
             <IoMoonOutline
-              size={26}
-              className="text-indigo-500 hover:text-indigo-600 transition-colors"
+              size={22}
+              className="text-indigo-400 hover:text-indigo-500 transition-colors"
             />
           )}
         </button>
 
         {/* Profile Avatar Placeholder */}
-        <div className="w-9 h-9 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold cursor-pointer hover:opacity-90 transition-all">
+        <div
+          className="w-9 h-9 rounded-full 
+                     bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 
+                     flex items-center justify-center 
+                     text-white font-semibold cursor-pointer 
+                     shadow-md hover:shadow-lg hover:scale-105 
+                     transition-all"
+        >
           U
         </div>
       </div>

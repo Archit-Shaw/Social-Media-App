@@ -92,36 +92,39 @@ const ChatWindow = ({ otherUserId }) => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
+    <div className="flex flex-col h-full bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <div className="p-4 border-b border-gray-300 flex items-center gap-x-3 sticky top-0 bg-white shadow-sm z-10">
-        <Link to="/messages" className="md:hidden text-gray-700 mr-2">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-x-3 sticky top-0 
+        bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md z-10">
+        <Link to="/messages" className="md:hidden text-gray-700 dark:text-gray-300 mr-2 hover:text-blue-500">
           <FaArrowLeft size={20} />
         </Link>
-        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-          {otherUser.profilePicture && (
-            <img
-              src={otherUser.profilePicture}
-              alt={otherUser.username}
-              className="w-full h-full object-cover"
-            />
-          )}
+        <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500 p-[2px]">
+          <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 overflow-hidden">
+            {otherUser.profilePicture && (
+              <img
+                src={otherUser.profilePicture}
+                alt={otherUser.username}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
         </div>
-        <h2 className="text-lg font-semibold text-gray-800">{otherUser.username}</h2>
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">{otherUser.username}</h2>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 p-4 overflow-y-auto">
+      <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
         {messages.map((msg, index) => (
           <div
             key={msg._id || `msg-${index}`}
             className={`flex mb-3 ${msg.senderId === currentUser._id ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs md:max-w-md px-4 py-2 rounded-2xl shadow-sm ${
+              className={`max-w-xs md:max-w-md px-4 py-2 rounded-2xl shadow-sm text-sm ${
                 msg.senderId === currentUser._id
-                  ? 'bg-blue-500 text-white rounded-br-none'
-                  : 'bg-gray-200 text-gray-800 rounded-bl-none'
+                  ? 'bg-gradient-to-tr from-blue-600 to-purple-500 text-white rounded-br-none'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-none'
               }`}
             >
               <p>{msg.message}</p>
@@ -132,18 +135,22 @@ const ChatWindow = ({ otherUserId }) => {
       </div>
 
       {/* Input */}
-      <div className="p-3 border-t border-gray-300 bg-white sticky bottom-0 shadow-md">
+      <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-900/90 
+        backdrop-blur-xl sticky bottom-0 shadow-lg">
         <form onSubmit={handleSendMessage} className="flex items-center gap-x-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 px-4 py-2 bg-gray-100 border border-gray-300 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 
+              rounded-full text-gray-800 dark:text-gray-200 placeholder-gray-400 
+              focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-500"
           />
           <button
             type="submit"
-            className="p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:bg-gray-400 transition"
+            className="p-3 bg-gradient-to-tr from-blue-600 to-purple-500 text-white rounded-full 
+              hover:scale-110 active:scale-95 transition-transform shadow-md disabled:opacity-50"
             disabled={!newMessage.trim()}
           >
             <FaPaperPlane />
