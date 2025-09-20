@@ -8,7 +8,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:5173',
-      // 'https://chitchat-aditi.vercel.app'
+      'https://social-media-app-3reb.onrender.com'
     ],
     methods: ['GET', 'POST'],
   },
