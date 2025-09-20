@@ -45,7 +45,7 @@ const TopNavbar = () => {
                      bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 
                      text-transparent bg-clip-text tracking-tight"
         >
-          ChitChat
+          Social media
         </h1>
       </Link>
 

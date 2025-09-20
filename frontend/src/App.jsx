@@ -35,19 +35,19 @@ const MainLayout = () => {
       <div className="hidden lg:flex sticky top-0 h-full">
         <LeftSidebar />
       </div>
-      
+
       {/* Main Content */}
       <main className="w-full max-w-2xl border-x border-gray-700 flex flex-col relative">
         {/* Mobile Header */}
         <div className="lg:hidden sticky top-0 z-20">
           <MobileHeader />
         </div>
-        
+
         {/* Page Content */}
         <div className="flex-1 overflow-y-auto pt-16 pb-16">
           <Outlet />
         </div>
-        
+
         {/* Mobile Bottom Navbar */}
         <div className="lg:hidden sticky bottom-0 z-20">
           <BottomNavbar />
@@ -64,26 +64,83 @@ const MainLayout = () => {
 
 function App() {
   const location = useLocation();
+
   return (
     <AuthProvider>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<AnimatedPage><HomePage /></AnimatedPage>} />
-            <Route path="/create" element={<AnimatedPage><HomePage /></AnimatedPage>} />
+            <Route
+              path="/"
+              element={
+                <AnimatedPage>
+                  <HomePage />
+                </AnimatedPage>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <AnimatedPage>
+                  <HomePage />
+                </AnimatedPage>
+              }
+            />
 
             {/* FIXED Profile Routes */}
             <Route path="/profile" element={<Navigate to="/login" replace />} />
-            <Route path="/profile/:username" element={<AnimatedPage><ProfilePage /></AnimatedPage>} />
+            <Route
+              path="/profile/:username"
+              element={
+                <AnimatedPage>
+                  <ProfilePage />
+                </AnimatedPage>
+              }
+            />
 
-            <Route path="/messages" element={<AnimatedPage><MessagesPage /></AnimatedPage>} />
-            <Route path="/messages/:otherUserId" element={<AnimatedPage><MessagesPage /></AnimatedPage>} />
-            <Route path="/imagine" element={<AnimatedPage><ImaginePage /></AnimatedPage>} />
+            <Route
+              path="/messages"
+              element={
+                <AnimatedPage>
+                  <MessagesPage />
+                </AnimatedPage>
+              }
+            />
+            <Route
+              path="/messages/:otherUserId"
+              element={
+                <AnimatedPage>
+                  <MessagesPage />
+                </AnimatedPage>
+              }
+            />
+            <Route
+              path="/imagine"
+              element={
+                <AnimatedPage>
+                  <ImaginePage />
+                </AnimatedPage>
+              }
+            />
           </Route>
 
           {/* Auth Routes */}
-          <Route path="/login" element={<AnimatedPage><LoginPage /></AnimatedPage>} />
-          <Route path="/register" element={<AnimatedPage><RegisterPage /></AnimatedPage>} />
+          <Route
+            path="/login"
+            element={
+              <AnimatedPage>
+                <LoginPage />
+              </AnimatedPage>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AnimatedPage>
+                <RegisterPage />
+              </AnimatedPage>
+            }
+          />
         </Routes>
       </AnimatePresence>
     </AuthProvider>

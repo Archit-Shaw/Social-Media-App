@@ -12,13 +12,13 @@ const MobileHeader = () => {
         to="/" 
         className="flex items-center gap-2 transition-transform duration-200 hover:scale-105"
       >
-        <img 
+        {/* <img 
           src="/logo.png" 
           alt="Postify Logo" 
           className="h-10 w-auto drop-shadow-sm" 
-        />
+        /> */}
         <span className="text-xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-          ChitChat
+          Social media
         </span>
       </Link>
     </header>
