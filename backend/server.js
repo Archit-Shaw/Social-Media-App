@@ -15,13 +15,12 @@ connectDB();
 
 const corsOptions = {
   origin: [
-    'http://localhost:5173',
-    'social-media-app-k3t8.vercel.app'
+    'http://localhost:5173', 
+    'https://social-media-app-k3t8.vercel.app'
   ],
   credentials: true,
   optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -37,6 +36,4 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => 
-  console.log(`Server running on port ${PORT}`)
-);
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
