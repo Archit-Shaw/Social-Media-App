@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { generateImage } from "../services/apiService";
-import { FaDownload, FaSpinner, FaImage } from "react-icons/fa";
+import { FaDownload, FaSpinner } from "react-icons/fa";
 
-export default function ImaginePage() {
+const ImaginePage = () => {
   const [prompt, setPrompt] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // Revoke object URL when imageUrl changes/unmount to avoid memory leaks
-  useEffect(() => {
-    return () => {
-      if (imageUrl) URL.revokeObjectURL(imageUrl);
-    };
-  }, [imageUrl]);
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -22,30 +15,24 @@ export default function ImaginePage() {
       return;
     }
     setLoading(true);
-    // revoke previous url immediately to free memory
-    if (imageUrl) {
-      URL.revokeObjectURL(imageUrl);
-      setImageUrl(null);
-    }
+    setImageUrl(null);
     setError("");
-
     try {
       const imageBlob = await generateImage(prompt);
       const url = URL.createObjectURL(imageBlob);
       setImageUrl(url);
     } catch (err) {
-      console.error(err);
       setError("Failed to generate image. Please try again.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDownload = () => {
-    if (!imageUrl) return;
     const link = document.createElement("a");
     link.href = imageUrl;
-    link.download = `chitchat-imagine-${Date.now()}.jpeg`;
+    link.download = "chitchat-imagine.jpeg";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
