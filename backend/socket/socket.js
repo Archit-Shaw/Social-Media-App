@@ -8,7 +8,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:5173',
-      'https://social-media-app-3reb.onrender.com'
+      'https://social-media-app-k3t8.vercel.app'
     ],
     methods: ['GET', 'POST'],
   },
